@@ -26,7 +26,7 @@ describe('api client - extraction', () => {
     });
 
     return client
-      .extraction({
+      .extract({
         url: 'https://demo.url',
       })
       .then(result => {
@@ -43,7 +43,7 @@ describe('api client - extraction', () => {
     });
 
     return client
-      .extraction({
+      .extract({
         url: 'https://demo.url',
       })
       .then(() => {

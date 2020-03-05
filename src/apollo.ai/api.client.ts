@@ -102,7 +102,7 @@ export class DefaultApiClient implements ApiClient {
   //     });
   // }
 
-  async extraction(parameters: ExtractionParameters) {
+  async extract(parameters: ExtractionParameters) {
     return this.httpClient
       .request<ExtractorResponse>(ENDPOINT_EXTRACTOR, {
         data: parameters,
@@ -176,6 +176,6 @@ export class DefaultApiClient implements ApiClient {
   // }
 
   private _rejectHttpResponse(response: HttpResponse, endpoint: string) {
-    return Promise.reject({ message: `Received invalid response from ${endpoint} endpoint`, error: _.get(response, 'errors[0].error') });
+    return Promise.reject({ message: `Received invalid response from ${endpoint} endpoint`, error: _.get(response, 'error') });
   }
 }

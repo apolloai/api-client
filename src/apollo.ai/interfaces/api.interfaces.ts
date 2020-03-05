@@ -21,6 +21,6 @@ export interface ApiClient {
   // clustering(articles: ClusteringArticle[], threshold?: number, language?: ClusteringLanguage): Promise<ClusteringResponse>;
   // continuedClustering(newArticles: Array<Article | string>, presentArticles?: ContinuousClusteringResultItem[], options?: ContinuousClusteringOptions): Promise<ContinuousClusteringResponse>;
 
-  extraction(parameters: ExtractionParameters): Promise<ExtractorResponse>;
+  extract(parameters: ExtractionParameters): Promise<ExtractorResponse>;
   sanitize(parameters: SanitizorParameters): Promise<SanitizorResponse>;
 }
