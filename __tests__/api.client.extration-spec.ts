@@ -29,7 +29,7 @@ describe('api client - extraction', () => {
       .extract({
         url: 'https://demo.url',
       })
-      .then(result => {
+      .then((result) => {
         expect(mockHttpClient.request).toBeCalledTimes(1);
         expect(result).toBeDefined();
         expect(result.text).toEqual('Lorem ipsum dolor sit amet');
@@ -49,7 +49,7 @@ describe('api client - extraction', () => {
       .then(() => {
         fail('should not be sucessful');
       })
-      .catch(err => {
+      .catch((err) => {
         expect(mockHttpClient.request).toBeCalledTimes(1);
         expect(err).toMatchObject({ message: 'Received invalid response from extraction endpoint' });
       });
@@ -67,7 +67,7 @@ describe('api client - extraction', () => {
       .sanitize({
         content: '<h1>Lorem</h1> ipsum <b>dolor</b> sit amet',
       })
-      .then(result => {
+      .then((result) => {
         expect(mockHttpClient.request).toBeCalledTimes(1);
         expect(result).toBeDefined();
         expect(result.content).toEqual('Lorem ipsum dolor sit amet');
@@ -87,7 +87,7 @@ describe('api client - extraction', () => {
       .then(() => {
         fail('should not be sucessful');
       })
-      .catch(err => {
+      .catch((err) => {
         expect(mockHttpClient.request).toBeCalledTimes(1);
         expect(err).toMatchObject({ message: 'Received invalid response from extraction endpoint' });
       });

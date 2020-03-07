@@ -32,7 +32,7 @@ describe('http client', () => {
       }),
     );
 
-    return client.request('https://api.apollo.ai/abstract').then(result => {
+    return client.request('https://api.apollo.ai/abstract').then((result) => {
       expect(fetchMock).toHaveBeenCalledTimes(1);
       expect(fetchMock).toHaveBeenCalledWith('https://api.apollo.ai/abstract', {
         headers: {
@@ -60,7 +60,7 @@ describe('http client', () => {
 
     client.setAuthorizationHeader('Bearer S3cr3tAp1T0k3n');
 
-    return client.request('https://api.apollo.ai/abstract').then(result => {
+    return client.request('https://api.apollo.ai/abstract').then((result) => {
       expect(fetchMock).toHaveBeenCalledTimes(1);
       expect(fetchMock).toHaveBeenCalledWith('https://api.apollo.ai/abstract', {
         headers: {
@@ -98,7 +98,7 @@ describe('http client', () => {
           'X-API-KEY': 'another-secret',
         },
       })
-      .then(result => {
+      .then((result) => {
         expect(fetchMock).toHaveBeenCalledTimes(1);
         expect(fetchMock).toHaveBeenCalledWith('https://api.apollo.ai/abstract', {
           headers: {
@@ -126,7 +126,7 @@ describe('http client', () => {
       }),
     );
 
-    return client.request('https://api.apollo.ai/abstract').then(result => {
+    return client.request('https://api.apollo.ai/abstract').then((result) => {
       expect(fetchMock).toHaveBeenCalledTimes(1);
       expect(result.status).toEqual(400);
       expect(result.data).toBeUndefined();
@@ -138,7 +138,7 @@ describe('http client', () => {
     const expectedResult = { message: 'API request failed' };
     fetchMock.mockRejectedValue(expectedResult);
 
-    return client.request('https://api.apollo.ai/abstract').then(result => {
+    return client.request('https://api.apollo.ai/abstract').then((result) => {
       expect(fetchMock).toHaveBeenCalledTimes(1);
       expect(result.status).toEqual(500);
       expect(result.data).toBeUndefined();
@@ -154,7 +154,7 @@ describe('http client', () => {
       text: jest.fn().mockResolvedValue('incorrect response'),
     });
 
-    return client.request('https://api.apollo.ai/abstract').then(result => {
+    return client.request('https://api.apollo.ai/abstract').then((result) => {
       expect(fetchMock).toHaveBeenCalledTimes(1);
       expect(result.status).toEqual(400);
       expect(result.data).toBeUndefined();
@@ -170,7 +170,7 @@ describe('http client', () => {
       text: jest.fn().mockRejectedValue('invalid response'),
     });
 
-    return client.request('https://api.apollo.ai/abstract').then(result => {
+    return client.request('https://api.apollo.ai/abstract').then((result) => {
       expect(fetchMock).toHaveBeenCalledTimes(1);
       expect(result.status).toEqual(503);
       expect(result.data).toBeUndefined();

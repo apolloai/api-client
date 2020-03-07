@@ -34,12 +34,12 @@ export class DefaultHttpClient implements HttpClient {
   async request<T = any>(url: string, options: HttpOptions = DEFAULT_OPTIONS) {
     let statusCode: number;
     return fetch(url, this._buildRequestInit(options))
-      .then(r => {
+      .then((r) => {
         statusCode = r.status;
         const isJson = (r.headers.get('content-type') || '').includes('application/json');
         return isJson ? r.json() : r.text();
       })
-      .then(res => {
+      .then((res) => {
         return {
           status: statusCode,
           ...(statusCode === 200
@@ -49,7 +49,7 @@ export class DefaultHttpClient implements HttpClient {
               }),
         } as HttpResponse<T>;
       })
-      .catch<HttpResponse<T>>(err => {
+      .catch<HttpResponse<T>>((err) => {
         return {
           status: statusCode >= 300 ? statusCode : 500,
           error: { message: 'API request failed', error: err },

@@ -30,7 +30,7 @@ describe('api client - autoabstract', () => {
         url: 'https://demo.url',
         keywords: [],
       })
-      .then(result => {
+      .then((result) => {
         expect(mockHttpClient.request).toBeCalledTimes(1);
         expect(result).toBeDefined();
         expect(result.sentences.length).toEqual(3);
@@ -50,7 +50,7 @@ describe('api client - autoabstract', () => {
       .then(() => {
         fail('should not be sucessful');
       })
-      .catch(err => {
+      .catch((err) => {
         expect(mockHttpClient.request).toBeCalledTimes(1);
         expect(err).toMatchObject({ message: 'Received invalid response from autoabstract endpoint' });
       });

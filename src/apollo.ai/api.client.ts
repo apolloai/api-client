@@ -44,7 +44,7 @@ export class DefaultApiClient implements ApiClient {
           keywords: parameters.keywords ? parameters.keywords.join(',') : '',
         },
       })
-      .then(response => {
+      .then((response) => {
         if (response.data) {
           return response.data;
         } else {
@@ -108,7 +108,7 @@ export class DefaultApiClient implements ApiClient {
         data: parameters,
         timeout: 10000,
       })
-      .then(response => {
+      .then((response) => {
         if (response.data) {
           return response.data;
         } else {
@@ -123,7 +123,7 @@ export class DefaultApiClient implements ApiClient {
         data: parameters,
         timeout: 10000,
       })
-      .then(response => {
+      .then((response) => {
         if (response.data) {
           return response.data;
         } else {
