@@ -19,23 +19,57 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '10.x'
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache Yarn Cache
+        uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
       - name: Install Dependencies
         run: yarn install
       - name: Run Unit & Integration Tests
         run: yarn test
 
-  # build-and-publish-npm--package:
-  #   if: github.event.pull_request.draft == false
-  #   needs: [tests]
-  #   name: Build and Publish NPM Package
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v1
-  #       with:
-  #         node-version: '10.x'
-  #         registry-url: 'https://registry.npmjs.org'
-  #     - name: Install Dependencies
-  #       run: yarn install
-  #     - name: Publish Package
-  #       run: yarn --non-interactive publish
+  build-and-publish-npm--package:
+    if: github.event.pull_request.draft == false
+    needs: [tests]
+    name: Build and Publish NPM Package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache Yarn Cache
+        uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
+      - name: Install Dependencies
+        run: yarn install
+      - name: Build Package
+        run: yarn build
+      - name: Publish Package
+        run: yarn --non-interactive publish --patch
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Push new version to Github
+        run: |
+          remote_repo="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git config http.sslVerify false
+          git config user.name "GithubAction Release"
+          git config user.email "actions@users.noreply.github.com"
+          git remote add merge-release "${remote_repo}"
+          git push "${remote_repo}" --tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
