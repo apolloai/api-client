@@ -59,6 +59,11 @@ jobs:
         run: yarn install
       - name: Build Package
         run: yarn build
+      - name: Configure Git
+        run: |
+          git config http.sslVerify false
+          git config user.name "GithubAction Release"
+          git config user.email "actions@users.noreply.github.com"
       - name: Publish Package
         run: yarn --non-interactive publish --patch
         env:
@@ -66,9 +71,6 @@ jobs:
       - name: Push new version to Github
         run: |
           remote_repo="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git config http.sslVerify false
-          git config user.name "GithubAction Release"
-          git config user.email "actions@users.noreply.github.com"
           git remote add merge-release "${remote_repo}"
           git push "${remote_repo}" --tags
         env:
