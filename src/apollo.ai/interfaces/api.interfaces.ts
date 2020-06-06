@@ -14,7 +14,7 @@ export * from './autoabstract.api.interfaces';
 export * from './clustering.api.interfaces';
 export * from './extraction.api.interfaces';
 
-export interface ApiClient {
+export interface ApolloaiApiClient {
   autoabstract(parameters: AutoAbstractParameters): Promise<AutoAbstractResponse>;
 
   // TODO: refactor those APIs

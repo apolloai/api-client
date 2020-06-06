@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { URL } from 'url';
 import {
-  ApiClient,
+  ApolloaiApiClient,
   AutoAbstractResponse,
   ClusteringArticle,
   ClusteringLanguage,
@@ -22,12 +22,12 @@ import { HttpResponse } from './interfaces/http.client.interfaces';
 
 const ENDPOINT_APOLLOAPI = 'https://api.apollo.ai';
 const ENDPOINT_AUTOABSTRACT = ENDPOINT_APOLLOAPI + '/autoabstract';
-const ENDPOINT_EXTRACTOR = ENDPOINT_APOLLOAPI + '/extract';
+const ENDPOINT_EXTRACTOR = ENDPOINT_APOLLOAPI + '/extraction/extract';
 const ENDPOINT_SANITIZOR = ENDPOINT_APOLLOAPI + '/extraction/sanitize';
 const ENDPOINT_CLUSTERING = ENDPOINT_APOLLOAPI + '/clustering';
 const ENDPOINT_COMBINEDAPI = ENDPOINT_APOLLOAPI + '/combinedapi';
 
-export class DefaultApiClient implements ApiClient {
+export class ApiClient implements ApolloaiApiClient {
   private httpClient = new DefaultHttpClient();
 
   constructor(protected apiKey: string) {

@@ -1,6 +1,6 @@
-import { DefaultApiClient } from '../src';
+import { ApiClient } from '../src';
 
-const client = new DefaultApiClient(process.env.APOLLO_KEY || 'YOUR-API-TOKEN');
+const client = new ApiClient(process.env.APOLLO_KEY || 'YOUR-API-TOKEN');
 
 client
   .extract({

@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DefaultApiClient, ApiClient } from '../src/index';
+import { ApiClient, ApolloaiApiClient } from '../src/index';
 import { HttpClient } from '../src/apollo.ai/interfaces/http.client.interfaces';
 
 import { createMockHttpClient } from './__mocks__/http.client-mock';
 
 describe('api client - extraction', () => {
-  let client: ApiClient;
+  let client: ApolloaiApiClient;
   let mockHttpClient: jest.Mocked<HttpClient>;
 
   beforeAll(() => {
-    client = new DefaultApiClient('mock-token');
+    client = new ApiClient('mock-token');
   });
 
   beforeEach(() => {
