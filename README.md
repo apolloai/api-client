@@ -20,12 +20,12 @@ yarn add @apolloai/api-client
 ## Importing with typescript
 
 ```
-import { DefaultApiClient } from '@apolloai/api-client';
+import { ApiClient } from '@apolloai/api-client';
 ```
 
 ## Usage of the apollo.ai autoabstract api
 
 ```
-  const apolloClient = new DefaultApiClient('your apollo API key');
+  const apolloClient = new ApiClient('your apollo API key');
   const result = await apolloClient.autoabstract({ headline, text, maxCharacters, keywords });
 ```
