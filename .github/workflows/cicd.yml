@@ -1,0 +1,41 @@
+name: CICD
+on:
+  push:
+    branches:
+      - master
+      - feature/*
+      # - release/*
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  tests:
+    name: Unit & Integration Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - name: Install Dependencies
+        run: yarn install
+      - name: Run Unit & Integration Tests
+        run: yarn test
+
+  # build-and-publish-npm--package:
+  #   if: github.event.pull_request.draft == false
+  #   needs: [tests]
+  #   name: Build and Publish NPM Package
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@v1
+  #       with:
+  #         node-version: '10.x'
+  #         registry-url: 'https://registry.npmjs.org'
+  #     - name: Install Dependencies
+  #       run: yarn install
+  #     - name: Publish Package
+  #       run: yarn --non-interactive publish

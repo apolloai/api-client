@@ -1,5 +1,8 @@
 # @apolloai/api-client
 
+![Test](https://github.com/apolloai/api-client/workflows/Test/badge.svg)
+![CICD](https://github.com/apolloai/api-client/workflows/CICD/badge.svg)
+
 This is the official client for the [apollo.ai API](https://docs.apollo.ai). Currently, only the autoabstract and clustering endpoints are supported. Support the pdf segmentation endpoints is planned. 
 There are also some yet undocumented/semi-official helper endpoints available like extraction, sanitation and continuous clustering.
 
