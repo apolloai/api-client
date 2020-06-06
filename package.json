@@ -1,6 +1,6 @@
 {
   "name": "@apolloai/api-client",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "description": "Client for the apollo.ai APIs.",
   "keywords": [
     "api client",
@@ -32,23 +32,24 @@
     "test:coverage:ci": "jest --coverage --coverageReporters=\"json\" --coverageReporters=\"json-summary\" --coverageReporters=\"lcov\" --coverageReporters=\"text\""
   },
   "dependencies": {
+    "got": "~11.3.0",
     "lodash": "^4.17.15",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
-    "@types/jest": "^25.1.3",
-    "@types/lodash": "^4.14.149",
-    "@types/node": "^13.7.7",
-    "@types/node-fetch": "^2.5.5",
-    "@typescript-eslint/eslint-plugin": "^2.22.0",
-    "@typescript-eslint/parser": "^2.22.0",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "jest": "^25.1.0",
-    "prettier": "^1.19.1",
-    "ts-jest": "^25.2.1",
-    "ts-node": "^8.6.2",
-    "typescript": "^3.8.3"
+    "@types/jest": "~25.2.3",
+    "@types/lodash": "~4.14.155",
+    "@types/node": "~14.0.11",
+    "@types/node-fetch": "~2.5.7",
+    "@typescript-eslint/eslint-plugin": "~3.1.0",
+    "@typescript-eslint/parser": "~3.1.0",
+    "eslint": "~7.2.0",
+    "eslint-config-prettier": "~6.11.0",
+    "eslint-plugin-prettier": "~3.1.3",
+    "jest": "~26.0.1",
+    "prettier": "~2.0.5",
+    "ts-jest": "~26.1.0",
+    "ts-node": "~8.10.2",
+    "typescript": "~3.9.5"
   }
 }
