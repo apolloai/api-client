@@ -38,10 +38,13 @@ export class GotHttpClient implements HttpClient {
       ...httpOptions,
       json: httpOptions.method === HttpMethod.POST ? data : undefined,
       responseType: 'json',
-      retry: httpOptions.retries > 0 ? {
-        limit: httpOptions.retries || 2,
-        methods: Object.values(HttpMethod),
-      } : 0,
+      retry:
+        httpOptions.retries > 0
+          ? {
+              limit: httpOptions.retries || 2,
+              methods: Object.values(HttpMethod),
+            }
+          : 0,
       throwHttpErrors: false,
     })
       .then((res) => {

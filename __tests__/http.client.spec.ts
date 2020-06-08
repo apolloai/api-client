@@ -8,7 +8,7 @@ describe('http client', () => {
 
   beforeEach(() => {
     client = new GotHttpClient();
-  })
+  });
 
   it('basic test', () => {
     const expectedResult = { result: 'mocked' };
@@ -55,13 +55,17 @@ describe('http client', () => {
     client.setAuthorizationHeader(null);
 
     return client
-      .request('https://api.apollo.ai/autoabstract', { input: 'mocked' }, {
-        method: HttpMethod.GET,
-        timeout: 3000,
-        headers: {
-          'X-API-KEY': 'another-secret',
+      .request(
+        'https://api.apollo.ai/autoabstract',
+        { input: 'mocked' },
+        {
+          method: HttpMethod.GET,
+          timeout: 3000,
+          headers: {
+            'X-API-KEY': 'another-secret',
+          },
         },
-      })
+      )
       .then((result) => {
         expect(result.status).toEqual(200);
         expect(result.data).toMatchObject(expectedResult);
@@ -125,7 +129,7 @@ describe('http client', () => {
       .matchHeader('accept', 'application/json')
       .matchHeader('content-type', 'application/json')
       .post('/autoabstract')
-      .reply(400, expectedResult)
+      .reply(400, expectedResult);
 
     return client.request('https://api.apollo.ai/autoabstract').then((result) => {
       expect(result.status).toEqual(400);

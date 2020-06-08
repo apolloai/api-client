@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { ApiClient } from '../src';
 
 const client = new ApiClient(process.env.APOLLO_KEY || 'YOUR-API-TOKEN');
