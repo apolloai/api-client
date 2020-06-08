@@ -8,11 +8,19 @@ module.exports =  {
  parserOptions:  {
     ecmaVersion:  2018,  // Allows for the parsing of modern ECMAScript features
     sourceType:  'module',  // Allows for the use of imports
+    project: [
+      'tsconfig.json',
+      'tsconfig.spec.json',
+    ],
   },
   rules:  {
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/no-empty-function": "warn",
+
+    'no-console': 'warn',
   },
 };
