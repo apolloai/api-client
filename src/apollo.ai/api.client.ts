@@ -17,7 +17,7 @@ import {
   SanitizorParameters,
   SanitizorResponse,
 } from './interfaces/api.interfaces';
-import { DefaultHttpClient } from './http.client';
+import { GotHttpClient } from './http.client';
 import { HttpResponse } from './interfaces/http.client.interfaces';
 
 const ENDPOINT_APOLLOAPI = 'https://api.apollo.ai';
@@ -28,7 +28,7 @@ const ENDPOINT_CLUSTERING = ENDPOINT_APOLLOAPI + '/clustering';
 const ENDPOINT_COMBINEDAPI = ENDPOINT_APOLLOAPI + '/combinedapi';
 
 export class ApiClient implements ApolloaiApiClient {
-  private httpClient = new DefaultHttpClient();
+  private httpClient = new GotHttpClient();
 
   constructor(protected apiKey: string) {
     this.httpClient.setAuthorizationHeader('Bearer ' + apiKey);
@@ -38,11 +38,9 @@ export class ApiClient implements ApolloaiApiClient {
   async autoabstract(parameters: AutoAbstractParameters) {
     return this.httpClient
       .request<AutoAbstractResponse>(ENDPOINT_AUTOABSTRACT, {
-        data: {
-          maxCharacters: 400,
-          ...parameters,
-          keywords: parameters.keywords ? parameters.keywords.join(',') : '',
-        },
+        maxCharacters: 400,
+        ...parameters,
+        keywords: parameters.keywords ? parameters.keywords.join(',') : '',
       })
       .then((response) => {
         if (response.data) {
@@ -60,8 +58,7 @@ export class ApiClient implements ApolloaiApiClient {
   //   endpointUrl.searchParams.append('language', language);
 
   //   return this.httpClient
-  //     .request<ClusteringResponse>(endpointUrl.toString(), {
-  //       data: articles,
+  //     .request<ClusteringResponse>(endpointUrl.toString(), articles, {
   //       timeout: 300000,
   //     })
   //     .then(response => {
@@ -89,8 +86,7 @@ export class ApiClient implements ApolloaiApiClient {
   //   const url = this._buildContinuousClusteringUrl(options);
 
   //   return this.httpClient
-  //     .request<ContinuousClusteringResponse>(url.toString(), {
-  //       data: parameters,
+  //     .request<ContinuousClusteringResponse>(url.toString(), parameters, {
   //       timeout: 300000,
   //     })
   //     .then(response => {
@@ -104,8 +100,7 @@ export class ApiClient implements ApolloaiApiClient {
 
   async extract(parameters: ExtractionParameters) {
     return this.httpClient
-      .request<ExtractorResponse>(ENDPOINT_EXTRACTOR, {
-        data: parameters,
+      .request<ExtractorResponse>(ENDPOINT_EXTRACTOR, parameters, {
         timeout: 10000,
       })
       .then((response) => {
@@ -119,8 +114,7 @@ export class ApiClient implements ApolloaiApiClient {
 
   async sanitize(parameters: SanitizorParameters) {
     return this.httpClient
-      .request<SanitizorResponse>(ENDPOINT_SANITIZOR, {
-        data: parameters,
+      .request<SanitizorResponse>(ENDPOINT_SANITIZOR, parameters, {
         timeout: 10000,
       })
       .then((response) => {
@@ -176,6 +170,9 @@ export class ApiClient implements ApolloaiApiClient {
   // }
 
   private _rejectHttpResponse(response: HttpResponse, endpoint: string) {
-    return Promise.reject({ message: `Received invalid response from ${endpoint} endpoint`, error: _.get(response, 'error') });
+    return Promise.reject({
+      message: `Received invalid response from ${endpoint} endpoint`,
+      error: _.get(response, 'error.error', _.get(response, 'error')),
+    });
   }
 }

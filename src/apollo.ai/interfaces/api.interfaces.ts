@@ -8,7 +8,12 @@ import {
   ContinuousClusteringOptions,
   ContinuousClusteringResponse,
 } from './clustering.api.interfaces';
-import { ExtractionParameters, ExtractorResponse, SanitizorParameters, SanitizorResponse } from './extraction.api.interfaces';
+import {
+  ExtractionParameters,
+  ExtractorResponse,
+  SanitizorParameters,
+  SanitizorResponse,
+} from './extraction.api.interfaces';
 
 export * from './autoabstract.api.interfaces';
 export * from './clustering.api.interfaces';

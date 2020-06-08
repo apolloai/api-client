@@ -1,7 +1,7 @@
-import fetch from 'node-fetch';
+import got from 'got';
+import { isString } from 'lodash';
 
 import { HttpClient, HttpOptions, HttpMethod, HttpResponse } from './interfaces/http.client.interfaces';
-import { isString, pickBy } from 'lodash';
 
 const DEFAULT_OPTIONS: HttpOptions = {
   method: HttpMethod.POST,
@@ -9,9 +9,10 @@ const DEFAULT_OPTIONS: HttpOptions = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
   },
+  retries: 2,
 };
 
-export class DefaultHttpClient implements HttpClient {
+export class GotHttpClient implements HttpClient {
   private _options: HttpOptions;
 
   constructor(timeout = 10000) {
@@ -31,46 +32,34 @@ export class DefaultHttpClient implements HttpClient {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async request<T = any>(url: string, options: HttpOptions = DEFAULT_OPTIONS) {
-    let statusCode: number;
-    return fetch(url, this._buildRequestInit(options))
-      .then((r) => {
-        statusCode = r.status;
-        const isJson = (r.headers.get('content-type') || '').includes('application/json');
-        return isJson ? r.json() : r.text();
-      })
+  async request<T = any>(url: string, data: any = {}, options: HttpOptions = DEFAULT_OPTIONS) {
+    const httpOptions = this._mergeOptions(options);
+    return got(url, {
+      ...httpOptions,
+      json: httpOptions.method === HttpMethod.POST ? data : undefined,
+      responseType: 'json',
+      retry: httpOptions.retries > 0 ? {
+        limit: httpOptions.retries || 2,
+        methods: Object.values(HttpMethod),
+      } : 0,
+      throwHttpErrors: false,
+    })
       .then((res) => {
         return {
-          status: statusCode,
-          ...(statusCode === 200
-            ? { data: res }
+          status: res.statusCode,
+          ...(res.statusCode === 200
+            ? { data: res.body }
             : {
-                error: isString(res) ? { message: res } : res,
+                error: isString(res) ? { message: res } : res.body,
               }),
         } as HttpResponse<T>;
       })
       .catch<HttpResponse<T>>((err) => {
         return {
-          status: statusCode >= 300 ? statusCode : 500,
+          status: 500,
           error: { message: 'API request failed', error: err },
         };
       });
-  }
-
-  /**
-   * merges
-   * @param options HttpOptions for the request
-   */
-  private _buildRequestInit(options: HttpOptions) {
-    return pickBy(
-      {
-        ...this._mergeOptions(options),
-        body: JSON.stringify(options.data),
-      },
-      (value, key) => {
-        return value && key != 'data';
-      },
-    );
   }
 
   private _mergeOptions(options: HttpOptions) {

@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface HttpClient {
   setAuthorizationHeader(value: string): HttpClient;
-  request<T = any>(url: string, options?: HttpOptions): Promise<HttpResponse<T>>;
+  request<T = any>(url: string, data?: any, options?: HttpOptions): Promise<HttpResponse<T>>;
 }
 
 export interface HttpOptions {
   method?: HttpMethod;
   headers?: HttpHeaders;
-  data?: any;
   timeout?: number;
+  retries?: number;
 }
 
 export enum HttpMethod {

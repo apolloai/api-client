@@ -2,7 +2,7 @@
 import { ApolloaiApiClient, ApiClient } from '../src/index';
 import { HttpClient } from '../src/apollo.ai/interfaces/http.client.interfaces';
 
-import { createMockHttpClient } from './__mocks__/http.client-mock';
+import { createMockHttpClient } from './__mocks__/http.client.mock';
 
 describe('api client - clustering', () => {
   let client: ApolloaiApiClient;
