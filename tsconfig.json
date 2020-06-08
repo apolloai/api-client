@@ -8,6 +8,7 @@
     "strict": true,
     "strictNullChecks": false,
     "target": "es2017",
+    "declaration": true,
     "skipLibCheck": true,
     "experimentalDecorators": true
   },
