@@ -32,7 +32,7 @@ jobs:
       - name: Install Dependencies
         run: yarn install
       - name: Run Unit & Integration Tests and Collect Coverage
-        run: yarn test:ci
+        run: yarn test:ci --coverage
       - name: Upload to CodeCov
         uses: codecov/codecov-action@v1
         with:
@@ -67,18 +67,18 @@ jobs:
       - name: Build Package
         run: yarn build
       - name: Configure Git
-        if: env.SKIP_NPM == 'true'
+        if: env.SKIP_NPM == 'false'
         run: |
           git config http.sslVerify false
           git config user.name "GithubAction Release"
           git config user.email "actions@users.noreply.github.com"
       - name: Publish Package
-        if: env.SKIP_NPM == 'true'
+        if: env.SKIP_NPM == 'false'
         run: yarn --non-interactive publish --patch
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Push new version to Github
-        if: env.SKIP_NPM == 'true'
+        if: env.SKIP_NPM == 'false'
         run: |
           remote_repo="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git remote add release "${remote_repo}"

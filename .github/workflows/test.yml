@@ -24,7 +24,7 @@ jobs:
       - name: Install all dependencies
         run: yarn install
       - name: Run Tests and Collect Coverage
-        run: yarn test
+        run: yarn test --coverage
       - name: Upload to CodeCov
         uses: codecov/codecov-action@v1
         with:
