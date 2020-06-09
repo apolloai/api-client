@@ -28,6 +28,7 @@
     "demo:autoabstract": "yarn ts-node examples/autoabstract.ts",
     "demo:extraction": "yarn ts-node examples/extraction.ts",
     "test": "jest",
+    "test:ci": "jest",
     "watch": "yarn build --watch"
   },
   "dependencies": {

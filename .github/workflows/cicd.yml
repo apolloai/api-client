@@ -31,8 +31,13 @@ jobs:
           restore-keys: ${{ runner.os }}-yarn-
       - name: Install Dependencies
         run: yarn install
-      - name: Run Unit & Integration Tests
-        run: yarn test
+      - name: Run Unit & Integration Tests and Collect Coverage
+        run: yarn test:ci
+      - name: Upload to CodeCov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: integration
 
   build-and-publish-npm--package:
     if: github.event.pull_request.draft == false
@@ -41,6 +46,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Set SKIP_NPM flag
+        run: echo ::set-env name=SKIP_NPM::${{ contains(github.event.head_commit.message, 'skip npm') }}
       - uses: actions/setup-node@v1
         with:
           node-version: '10.x'
@@ -60,15 +67,18 @@ jobs:
       - name: Build Package
         run: yarn build
       - name: Configure Git
+        if: env.SKIP_NPM == 'true'
         run: |
           git config http.sslVerify false
           git config user.name "GithubAction Release"
           git config user.email "actions@users.noreply.github.com"
       - name: Publish Package
+        if: env.SKIP_NPM == 'true'
         run: yarn --non-interactive publish --patch
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Push new version to Github
+        if: env.SKIP_NPM == 'true'
         run: |
           remote_repo="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git remote add release "${remote_repo}"

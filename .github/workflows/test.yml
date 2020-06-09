@@ -23,5 +23,10 @@ jobs:
           restore-keys: ${{ runner.os }}-yarn-
       - name: Install all dependencies
         run: yarn install
-      - name: Run Tests
+      - name: Run Tests and Collect Coverage
         run: yarn test
+      - name: Upload to CodeCov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: unit
