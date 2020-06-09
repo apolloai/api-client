@@ -1,6 +1,6 @@
 {
   "name": "@apolloai/api-client",
-  "version": "0.10.7",
+  "version": "0.10.8",
   "description": "Client for the apollo.ai APIs.",
   "keywords": [
     "api client",
