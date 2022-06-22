@@ -32,7 +32,7 @@
     "watch": "yarn build --watch"
   },
   "dependencies": {
-    "got": "^10",
+    "got": "^11",
     "lodash": "^4.17.15"
   },
   "devDependencies": {
